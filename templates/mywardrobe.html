@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fashion Recommendation</title>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+  <header class="navstick">
+    <nav class="navbar navstick navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-2" href="#">.Closet Canvas.</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="redirectButton">My Wardrobe</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+            </li>
+            <!-- Display user profile in the navbar -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fas fa-user"><ion-icon name="person" class="dp"></ion-icon></i>
+                <!-- User profile icon -->
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
+                <li><a class="dropdown-item" href="/index">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="content-container">
+    <div class="top">
+      <button onclick="toggleLeftContent()">
+        <ion-icon name="menu-outline" class="icon"></ion-icon>
+      </button>
+    </div>
+    <div class="left-content">
+      <div class="dd">
+        <!-- Filter Checkboxes -->
+        <div class="filter-section">
+          <h4>Filters</h4>
+          <label>
+            <input type="checkbox" name="formal" id="formalCheckbox" /> Formal
+          </label>
+          <label>
+            <input type="checkbox" name="casual" id="casualCheckbox" />
+            Casual
+          </label>
+          <label>
+            <input type="checkbox" name="party" id="partyCheckbox" /> Party
+          </label>
+          <label>
+            <input type="checkbox" name="ethnic" id="ethnicCheckbox" /> Ethnic
+          </label>
+          <label>
+            <input type="checkbox" name="sports" id="sportsCheckbox" /> Sports
+          </label>
+          <label>
+            <input type="checkbox" name="summer" id="summerCheckbox" /> Summer
+          </label>
+          <label>
+            <input type="checkbox" name="winter" id="winterCheckbox" /> Winter
+          </label>
+          <label>
+            <input type="checkbox" name="fall" id="fallCheckbox" /> Fall
+          </label>
+          <label>
+            <input type="checkbox" name="spring" id="springCheckbox" /> Spring
+          </label>
+          <button onclick="applyFilters()" class="btn btn-primary">Apply Filters</button>
+        </div>
+      </div>
+    </div>
+    <div class="right-content rin">
+      <div class="stick">
+        <div class="btn-wardrop">
+          <!-- {% if gender == 'male' %}
+          <button type="button" class="btn btn-primary active" disabled>
+            Male
+          </button>
+          <button type="button" class="btn btn-primary" disabled>
+            Female
+          </button> -->
+          <!-- {% elif gender == 'female' %}
+          <button type="button" class="btn btn-primary" disabled>Male</button>
+          <button type="button" class="btn btn-primary active" disabled>
+            Female
+          </button>
+          {% else %}
+          <button type="button" class="btn btn-primary" disabled>Male</button>
+          <button type="button" class="btn btn-primary" disabled>
+            Female
+          </button>
+          {% endif %} -->
+          <button onclick="selectItems()" class="btn btn-primary">
+            Select Items
+          </button>
+        </div>
+      </div>
+
+      <!-- Display Items in Three Divs -->
+      <div class="wardrobe-section" id="topwear-section">
+        <h1>Topwear</h1>
+        <div class="container1" id="topwear-container">
+          {% if topwear_data %} {% for item in topwear_data %}
+          <div class="item">
+            <input type="checkbox" name="selectedItems-topwear" value="{{ item.id}}" /><br>
+            <img src="{{ url_for('static', filename='images/' + item.id + '.jpg') }}" />
+            <p>Product Name: {{ item.productDisplayName }}</p>
+          </div>
+          {% endfor %} {% else %}
+          <p>No topwear items available.</p>
+          {% endif %}
+        </div>
+      </div>
+      <button onclick="loadMore(getGenderFromURL(), 'topwear', 2)" id="load-more-topwear" class="btn btn-primary">
+        Load More
+      </button>
+
+      <div class="wardrobe-section" id="bottomwear-section">
+        <h1>Bottomwear</h1>
+        <div class="container1" id="bottomwear-container">
+          {% if bottomwear_data %} {% for item in bottomwear_data %}
+          <!-- Render bottomwear item here -->
+          <div class="item">
+            <input type="checkbox" name="selectedItems-bottomwear" value="{{ item.id}}" /><br>
+            <img src="{{ url_for('static', filename='images/' + item.id + '.jpg') }}" />
+            <p>Product Name: {{ item.productDisplayName }}</p>
+          </div>
+          {% endfor %} {% else %}
+          <p>No bottomwear items available.</p>
+          {% endif %}
+        </div>
+      </div>
+      <button onclick="loadMore(getGenderFromURL(), 'bottomwear', 2)" id="load-more-bottomwear" class="btn btn-primary">
+        Load More
+      </button>
+
+      <div class="wardrobe-section" id="footwear-section">
+        <h1>Footwear</h1>
+        <div class="container1" id="footwear-container">
+          {% if footwear_data %} {% for item in footwear_data %}
+          <div class="item">
+            <input type="checkbox" name="selectedItems-footwear" value="{{ item.id}}" /><br>
+            <img src="{{ url_for('static', filename='images/' + item.id + '.jpg') }}" />
+            <p>Product Name: {{ item.productDisplayName }}</p>
+          </div>
+          {% endfor %} {% else %}
+          <p>No footwear items available.</p>
+          {% endif %}
+        </div>
+      </div>
+      <button onclick="loadMore(getGenderFromURL(), 'footwear', 2)" id="load-more-footwear" class="btn btn-primary">
+        Load More
+      </button>
+    </div>
+  </div>
+  <section class='footer'>
+    <nav class="foot">
+        <a href="contact">Contact us</a>
+        <a href="/site/terms-of-service">Terms of Service</a>
+        <a href="/site/privacy-policy">Privacy Policy</a>
+        <a href="/site/copyright">Copyright</a>
+    </nav>
+    <p class='copyright'>
+        © 2024 .Closet Canvas. All rights reserved.
+        </p>
+</section>
+
+  <script>
+
+    let url= window.location.href
+    let userID = url.match(/\/male\/([^#\/]+)/);
+    function toggleLeftContent() {
+      // Get the element with the class 'left-content'
+      var leftContent = document.querySelector(".left-content");
+
+      // Toggle the 'slider' class on the 'left-content' element
+      leftContent.classList.toggle("slider");
+    }
+    localStorage.setItem('uid',userID);
+    function nextImage(containerId) {
+      const container = document.getElementById(containerId);
+      container.scrollLeft += container.clientWidth;
+    }
+
+    function getGenderFromURL() {
+      // Extract the gender from the URL
+      const url = window.location.href;
+      const genderMatch = url.match(/\/mywardrobe\/(male|female)/);
+
+      // Check if the gender is found in the URL
+      if (genderMatch && genderMatch[1]) {
+        return genderMatch[1].toLowerCase(); // Convert to lowercase for consistency
+      }
+
+      // Default to 'male' if gender is not found in the URL
+      return "male";
+    }
+
+    async function loadMore(gender, category) {
+      const containerId = `${category}-container`;
+      const container = document.getElementById(containerId);
+
+      const loadMoreButton = document.getElementById(`load-more-${category}`);
+      let nextPage = parseInt(loadMoreButton.dataset.nextPage) || 1;
+
+      // Handle the additional data as needed (e.g., append new items to the DOM)
+      const url = `/load_more/${gender}/${category}?page=${nextPage}`;
+
+      try {
+        const response = await fetch(url);
+
+        // Check if the response status is ok (status code in the range 200-299)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        const datcatg = `${category}_data`;
+
+        // Check if responseData has the expected structure
+        if (
+          responseData &&
+          responseData[datcatg] &&
+          Array.isArray(responseData[datcatg])
+        ) {
+          const additionalData = responseData[datcatg];
+
+          additionalData.forEach((item) => {
+            const newItem = document.createElement("div");
+            newItem.className = "item";
+            newItem.innerHTML = `
+                  <input type="checkbox" name="selectedItems-${category}" value="${item.id}">
+                  <img src="/static/images/${item.id}.jpg" alt="${item.productDisplayName}">
+                  <p>Product Name: ${item.productDisplayName}</p>
+                `;
+            container.appendChild(newItem);
+          });
+
+          // Update the next page parameter for subsequent requests
+          loadMoreButton.dataset.nextPage = nextPage + 1;
+
+          // Apply event listeners or update functionalities for the newly loaded checkboxes
+          applyEventListenersForNewCheckboxes();
+        } else {
+          console.error("Invalid response data structure:", responseData);
+        }
+      } catch (error) {
+        console.log("Error loading more items:", error);
+      }
+    }
+
+    function applyEventListenersForNewCheckboxes() {
+      // Add event listeners or update functionalities for newly loaded checkboxes here
+      // For example, you can update a list of selected items
+      const checkboxes = document.querySelectorAll(
+        'input[name="selectedItems"]'
+      );
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", handleCheckboxChange);
+      });
+    }
+
+    function handleCheckboxChange(event) {
+      // Handle checkbox change event
+      // For example, you can update a list of selected items
+      const selectedCheckbox = event.target;
+      const itemId = selectedCheckbox.value;
+      console.log(
+        `Checkbox with ID ${itemId} is ${selectedCheckbox.checked ? "checked" : "unchecked"
+        }`
+      );
+    }
+
+    function isTopwear(itemId) {
+      // Logic to determine if the item is topwear based on its ID
+      // You may need to adapt this based on your data structure
+      return true; // Replace with your logic
+    }
+
+    function isBottomwear(itemId) {
+      // Logic to determine if the item is bottomwear based on its ID
+      // You may need to adapt this based on your data structure
+      return true; // Replace with your logic
+    }
+
+    function isFootwear(itemId) {
+      // Logic to determine if the item is footwear based on its ID
+      // You may need to adapt this based on your data structure
+      return true; // Replace with your logic
+    }
+
+    function selectItems() {
+      const selectedTopwearItems = document.querySelectorAll(
+        'input[name="selectedItems-topwear"]:checked'
+      );
+      const selectedBottomwearItems = document.querySelectorAll(
+        'input[name="selectedItems-bottomwear"]:checked'
+      );
+      const selectedFootwearItems = document.querySelectorAll(
+        'input[name="selectedItems-footwear"]:checked'
+      );
+
+      const selectedTopwearIds = Array.from(selectedTopwearItems).map(
+        (item) => item.value
+      );
+      const selectedBottomwearIds = Array.from(selectedBottomwearItems).map(
+        (item) => item.value
+      );
+      const selectedFootwearIds = Array.from(selectedFootwearItems).map(
+        (item) => item.value
+      );
+
+      // Redirect to the next page with selected item IDs
+      const gender = getGenderFromURL();
+      const url = `/selected_items/${gender}?tids=${selectedTopwearIds.join(
+        ","
+      )}&bids=${selectedBottomwearIds.join(
+        ","
+      )}&fids=${selectedFootwearIds.join(",")}`;
+      window.location.href = url;
+    }
+
+    function applyFilters() {
+      const gender = "{{ gender }}"; // Assuming you pass gender to the template
+      const filters = {
+        casual: document.getElementById("casualCheckbox").checked,
+        formal: document.getElementById("formalCheckbox").checked,
+        ethnic: document.getElementById("ethnicCheckbox").checked,
+        sports: document.getElementById("sportsCheckbox").checked,
+        party: document.getElementById("partyCheckbox").checked,
+        summer: document.getElementById("summerCheckbox").checked,
+        winter: document.getElementById("winterCheckbox").checked,
+        fall: document.getElementById("fallCheckbox").checked,
+        spring: document.getElementById("springCheckbox").checked,
+      };
+
+      // Debugging: Log the gender and filters
+      console.log("Gender:", gender);
+      console.log("Filters:", filters);
+
+      // Map gender values to 'Men' and 'Women'
+      const genderMapping = {
+        male: "Men",
+        female: "Women",
+        // Add more mappings as needed
+      };
+
+      // Get the mapped gender value
+      const mappedGender = genderMapping[gender] || gender;
+
+      // Make an AJAX request to fetch filtered items
+      fetch(`/filtered_items/${mappedGender}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filters, mappedGender }),
+      })
+        .then((response) => response.json())
+        .then((data) => updateItems(data))
+        .catch((error) => console.error("Error:", error));
+    }
+
+    function updateItems(responseData) {
+      // Assuming you have div containers for displaying items in your HTML,
+      // replace 'topwear-container', 'bottomwear-container', 'footwear-container'
+      // with the actual IDs or classes of your containers.
+      const topwearContainer = document.getElementById("topwear-container");
+      const bottomwearContainer = document.getElementById(
+        "bottomwear-container"
+      );
+      const footwearContainer = document.getElementById("footwear-container");
+
+      // Hide existing content in containers
+      topwearContainer.style.display = "none";
+      bottomwearContainer.style.display = "none";
+      footwearContainer.style.display = "none";
+
+      // Clear existing content in containers
+      topwearContainer.innerHTML = "";
+      bottomwearContainer.innerHTML = "";
+      footwearContainer.innerHTML = "";
+
+      // Function to create HTML elements for an item
+      function createItemElement(item, category) {
+        const itemElement = document.createElement("div");
+        itemElement.className = "item";
+        itemElement.innerHTML = `
+          <input type="checkbox" name="selectedItems-${category}" value="${item.id}"><br>
+          <img src="/static/images/${item.id}.jpg" alt="${item.productDisplayName}"> <!-- Replace with your image route -->
+          <p>Product Name: ${item.productDisplayName}</p>
+    `; // Adjust this based on your actual item display
+        return itemElement;
+      }
+
+      // Append filtered items to respective containers
+      if (responseData.filtered_items.Bottomwear) {
+        const filteredBottomwear = responseData.filtered_items.Bottomwear;
+        filteredBottomwear.forEach((item) =>
+          bottomwearContainer.appendChild(createItemElement(item, "bottomwear"))
+        );
+      }
+
+      if (responseData.filtered_items.Topwear) {
+        const filteredTopwear = responseData.filtered_items.Topwear;
+        filteredTopwear.forEach((item) =>
+          topwearContainer.appendChild(createItemElement(item, "topwear"))
+        );
+      }
+
+      if (responseData.filtered_items.Footwear) {
+        const filteredFootwear = responseData.filtered_items.Footwear;
+        filteredFootwear.forEach((item) =>
+          footwearContainer.appendChild(createItemElement(item, "footwear"))
+        );
+      }
+
+      // Display filtered content
+      topwearContainer.style.display = "flex";
+      bottomwearContainer.style.display = "flex";
+      footwearContainer.style.display = "flex";
+    }
+  </script>
+  <!-- End of script in mywardrobe.html -->
+
+  <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

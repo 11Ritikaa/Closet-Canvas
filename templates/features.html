@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Recommendation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+</head>
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container">
+          <a class="navbar-brand fw-bold fs-2" href="#">.Closet Canvas.</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/index">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/features">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="signin">Log In</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white" href="signup">Sign Up</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="headpane">
+      <h1 class="text-heading fs-1 fw-bold mb-3">How It Works</h1>
+    </div>
+
+    <section class="container py-5 mt-5" id="about">
+      <div class="row g-5">
+        <div class="col-12 col-lg-5">
+          <img src="{{ url_for('static', filename='assets/f1.jpg') }}" alt="" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-12 col-lg-7">
+          <div class="text-center text-md-start">
+            <h2 class="text-primary fs-1 fw-bold mb-3">1. Add Clothes You Own To Your Wardrobe</h2>
+            <p>At Canvas, we show a pleothra of outfits to choose from. Where you can choose them according to your wardrobe collection or can also see towards your next purchase option. It gives you a chance to explore your potential outfits because we believe that fashion is a powerful form of self-expression.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-5 mt-5" id="about">
+      <div class="row g-5">
+        <div class="col-12 col-lg-7">
+          <div class="text-center text-md-start">
+            <h2 class="text-primary fs-1 fw-bold mb-3">2. See outfits That You Can Create Right Away.</h2>
+            <p>At Canvas, you can explore endless outfit possibilities tailored to your style. Our algorithm analyzes your existing collection to suggest curated ensembles that suit your taste and occasion. With just a few clicks, you can discover new combinations and breathe life into your wardrobe.</p>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <img src="{{ url_for('static', filename='assets/f2.jpg') }}" alt="" class="img-fluid mx-auto d-block">
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-5 mt-5" id="about">
+      <div class="row g-5">
+        <div class="col-12 col-lg-5">
+          <img src="{{ url_for('static', filename='assets/f3.jpg') }}" alt="" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-12 col-lg-7">
+          <div class="text-center text-md-start">
+            <h2 class="text-primary fs-1 fw-bold mb-3">3. See The Items That Your Wardrobe Misses.</h2>
+            <p>At Canvas, you may discover the crucial pieces absent from your wardrobe effortlessly. Our platform meticulously examines your current collection, identifying gaps to elevate your style. From timeless essentials to trendy accents, receive personalized recommendations that align with your fashion preferences. Streamline your shopping experience by focusing on precisely what your wardrobe lacks. With Closet Canvas, effortlessly fill in the missing pieces and curate a wardrobe that reflects your unique style and versatility.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class='footer'>
+        <nav class="foot">
+            <a href="contact">Contact us</a>
+            <a href="/site/terms-of-service">Terms of Service</a>
+            <a href="/site/privacy-policy">Privacy Policy</a>
+            <a href="/site/copyright">Copyright</a>
+        </nav>
+        <p class='copyright'>
+            © 2024 Closet Canvas. All rights reserved.
+            </p>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+</body>
+</html>
